@@ -163,3 +163,12 @@ class TestAccountService(TestCase):
         test_account = self._create_accounts(1)[0]
         response = self.client.delete(f"{BASE_URL}/{test_account.id}")
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+
+    def test_get_account_list(self):
+        """It should return all accounts"""
+        self._create_accounts(5)
+        response = self.client.get(BASE_URL)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.get_json()
+        self.assertEqual(len(data), 5)
